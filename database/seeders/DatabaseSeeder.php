@@ -1,0 +1,42 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // \App\Models\User::factory(10)->create();
+        $this->call([
+
+            StatusTableSeeder::class,
+
+            LanguagesSeeder::class,
+            SubjectTableSeeder::class,
+            TestTypeTableSeeder::class,
+
+            SimpleTestTableSeeder::class,
+            SimpleTestAnswerTableSeeder::class,
+
+            MultipleAnswerTestSeeder::class,
+            MultipleAnswerTestAnswerSeeder::class,
+
+            OpenTestSeeder::class,
+            OpenTestAnswerSeeder::class,
+
+            ComparisonTestSeeder::class,
+            ComparisonOptionAnswerSeeder::class,
+            ComparisonOptionQuestionSeeder::class,
+
+            SubjectLanguageSeeder::class,
+            SubjectTypeSeeder::class,
+        ]);
+    }
+}
