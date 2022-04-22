@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserTestFactory extends Factory
+class StatusFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,6 +15,7 @@ class UserTestFactory extends Factory
     {
         return [
             //
+            'status_name'=>$this->faker->title
         ];
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
-use App\Models\v1\Languages;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SubjectsFactory extends Factory
+class UsersFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,8 +15,6 @@ class SubjectsFactory extends Factory
     {
         return [
             //
-            'name' => $this->faker->title,
-            'language_id' => Languages::all()->random(),
         ];
     }
 }

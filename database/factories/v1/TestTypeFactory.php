@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UsersFactory extends Factory
+class TestTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +14,7 @@ class UsersFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'type_name' => $this->faker->creditCardType,
         ];
     }
 }

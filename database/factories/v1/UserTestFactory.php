@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LanguagesFactory extends Factory
+class UserTestFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +14,7 @@ class LanguagesFactory extends Factory
     public function definition()
     {
         return [
-            'language_name' => $this->faker->languageCode
+            //
         ];
     }
 }

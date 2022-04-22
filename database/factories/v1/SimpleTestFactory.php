@@ -1,19 +1,19 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
 use App\Models\v1\Status;
 use App\Models\v1\Subjects;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ComparisonTestFactory extends Factory
+class SimpleTestFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
             //

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
 use App\Models\v1\Subjects;
 use App\Models\v1\TestType;

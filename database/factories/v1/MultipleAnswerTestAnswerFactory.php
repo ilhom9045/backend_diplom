@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\v1;
 
-use App\Models\v1\SimpleTest;
+use App\Models\v1\MultipleAnswerTest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SimpleTestAnswerFactory extends Factory
+class MultipleAnswerTestAnswerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,7 +16,7 @@ class SimpleTestAnswerFactory extends Factory
     {
         return [
             //
-            'simple_test_id' => SimpleTest::all()->random(),
+            'multiple_answer_test_id' => MultipleAnswerTest::all()->random(),
             'answer_body' => $this->faker->text,
             'is_true' => $this->faker->boolean,
         ];
