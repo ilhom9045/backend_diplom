@@ -15,6 +15,6 @@ class SubjectLanguageSeeder extends Seeder
     public function run()
     {
         //
-        SubjectLanguage::factory()->count(200)->create();
+        SubjectLanguage::factory()->count(100)->create();
     }
 }

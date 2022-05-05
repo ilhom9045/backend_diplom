@@ -13,12 +13,12 @@ class Subjects extends BaseModel
         return $this->hasMany(TestType::class);
     }
 
-    public function textCount()
+    public function testCount()
     {
         $textCount = [];
         $j = 0;
         $all = self::all();
-        for ($i = 10; $i <= count($all); $i += 10) {
+        for ($i = 5; $i <= count($all); $i += 5) {
             $textCount[$j] = [
                 'id' => $i,
                 'title' => "$i"

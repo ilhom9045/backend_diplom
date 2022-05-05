@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api\v1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ComparisonTestResource extends JsonResource
+class ComparisonOptionQuestionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,7 @@ class ComparisonTestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'option_question' => ComparisonOptionQuestionResource::collection($this->option_question),
-            'option_answers' => ComparisonOptionAnswerResource::collection($this->option_answers),
+            'question_body' => $this->question_body
         ];
     }
 }

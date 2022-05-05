@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Resources\Api\v1\SimpleTestResource;
 use App\Models\v1\SimpleTest;
+use App\Models\v1\SimpleTestAnswer;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class SimpleTestController extends BaseController
@@ -17,8 +19,8 @@ class SimpleTestController extends BaseController
     {
         $subject_id = $request->get('subject_id');
         $subject_count = $request->get('test_count');
-        $simple_tests = SimpleTest::all()->where('subject_id', '=', $subject_id)->random($subject_count);
-        return SimpleTestResource::collection($simple_tests);
+        $simple_tests = SimpleTest::all()->where('subject_id', '=', $subject_id)->random()->limit($subject_count)->get();
+        return $this->setData(SimpleTestResource::collection($simple_tests), "");
     }
 
     /**
@@ -29,9 +31,14 @@ class SimpleTestController extends BaseController
      */
     public function store(Request $request)
     {
-//        //
-//        $create_simple_text = SimpleTest::create($request->validate());
-//        return new SimpleTestResource($create_simple_text);
+        $answers = json_decode($request->getContent());
+        if (isset($answers)) {
+            $arr = [];
+            foreach ($answers as $answer) {
+                $arr[] = SimpleTestAnswer::all()->where("id", $answer->id)->first()->is_true == 1;
+            }
+            return $arr;
+        }
     }
 
     /**

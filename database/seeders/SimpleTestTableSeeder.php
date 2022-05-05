@@ -15,6 +15,6 @@ class SimpleTestTableSeeder extends Seeder
     public function run()
     {
         //
-        SimpleTest::factory()->count(2000)->create();
+        SimpleTest::factory()->count(100)->create();
     }
 }

@@ -16,7 +16,7 @@ class CreateOpenTestAnswersTable extends Migration
         Schema::create('open_test_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId("open_test_id")->constrained();
-            $table->text('answer_body');
+            $table->double('answer_body');
             $table->boolean('is_true');
             $table->timestamps();
         });

@@ -15,6 +15,6 @@ class ComparisonOptionAnswerSeeder extends Seeder
     public function run()
     {
         //
-        ComparisonOptionAnswer::factory()->count(2000)->create();
+        ComparisonOptionAnswer::factory()->count(600)->create();
     }
 }

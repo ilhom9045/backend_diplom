@@ -15,6 +15,6 @@ class SubjectTableSeeder extends Seeder
     public function run()
     {
         //
-        Subjects::factory()->count(50)->create();
+        Subjects::factory()->count(10)->create();
     }
 }

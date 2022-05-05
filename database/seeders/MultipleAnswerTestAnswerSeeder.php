@@ -15,6 +15,6 @@ class MultipleAnswerTestAnswerSeeder extends Seeder
     public function run()
     {
         //
-        MultipleAnswerTestAnswer::factory()->count(100)->create();
+        MultipleAnswerTestAnswer::factory()->count(500)->create();
     }
 }

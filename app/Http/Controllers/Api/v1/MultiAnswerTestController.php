@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Resources\Api\v1\MultiAnswerTestResource;
 use App\Models\v1\MultipleAnswerTest;
+use App\Models\v1\MultipleAnswerTestAnswer;
+use App\Models\v1\SimpleTestAnswer;
 use Illuminate\Http\Request;
 
 class MultiAnswerTestController extends BaseController
@@ -17,8 +19,8 @@ class MultiAnswerTestController extends BaseController
     {
         $subject_id = $request->get('subject_id');
         $subject_count = $request->get('test_count');
-        $simple_tests = MultipleAnswerTest::all()->where('subject_id', '=', $subject_id)->random($subject_count);
-        return MultiAnswerTestResource::collection($simple_tests);
+        $simple_tests = MultipleAnswerTest::all()->where('subject_id', '=', $subject_id)->random()->limit($subject_count)->get();
+        return $this->setData(MultiAnswerTestResource::collection($simple_tests), "");
     }
 
     /**
@@ -29,10 +31,18 @@ class MultiAnswerTestController extends BaseController
      */
     public function store(Request $request)
     {
-        $subject_id = $request->get('subject_id');
-        $subject_count = $request->get('test_count');
-        $simple_tests = MultipleAnswerTest::all()->where('subject_id', '=', $subject_id)->random($subject_count);
-        return MultiAnswerTestResource::collection($simple_tests);
+        $answers = json_decode($request->getContent());
+        if (isset($answers)) {
+            $response = [];
+            foreach ($answers as $answer) {
+                $arr = [];
+                foreach ($answer->answers as $item) {
+                    $arr[] = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first()->is_true == 1;
+                }
+                $response[] = $arr;
+            }
+            return $response;
+        }
     }
 
     /**

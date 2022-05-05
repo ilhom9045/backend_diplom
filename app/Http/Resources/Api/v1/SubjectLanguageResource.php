@@ -20,10 +20,6 @@ class SubjectLanguageResource extends JsonResource
         $title = (Subjects::findOrFail($subjectId))->name;
         $subjects = SubjectType::all()->where('subject_id', '=', $subjectId);
         $category = SubjectTestTypeResource::collection($subjects);
-        $category = $category->collection->map(function ($subjectType) {
-            $subjectType->testCount = "adawsdd ";
-            return $subjectType;
-        })->all();
         return [
             'id' => $this->subject_id,
             'title' => $title,

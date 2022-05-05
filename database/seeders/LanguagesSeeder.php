@@ -15,6 +15,6 @@ class LanguagesSeeder extends Seeder
     public function run()
     {
         //
-        Languages::factory()->count(3)->create();
+        Languages::factory()->count(1)->create();
     }
 }

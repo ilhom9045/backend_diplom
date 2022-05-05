@@ -14,6 +14,6 @@ class SubjectTypeSeeder extends Seeder
      */
     public function run()
     {
-        SubjectType::factory()->count(200)->create();
+        SubjectType::factory()->count(40)->create();
     }
 }

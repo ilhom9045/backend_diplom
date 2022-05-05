@@ -19,8 +19,10 @@ class SubjectsController extends BaseController
         try {
             $id = $request->get('language');
             $l = Languages::all()->where("language_name", "=", $id)->first();
-            $skip = $request->get('skip');
-            $subjects = SubjectLanguage::where('language_id', '=', $l->id)->skip($skip)->take(5)->get();
+            $start = $request->get('start');
+            $count = $request->get('count');
+//            $subjects = SubjectLanguage::where('language_id', '=', $l->id)->skip($start)->take($count)->get();
+            $subjects = SubjectLanguage::where('language_id', '=', $l->id)->offset($start * $count)->limit($count)->get();
             $subjects = SubjectLanguageResource::collection($subjects);
 
             $data = [

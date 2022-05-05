@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 
 abstract class BaseController extends Controller
 {
     const status = "status";
     const data = "data";
     const message = "message";
+    const userAnswer = "user_answers";
 
     protected $arr = [];
 

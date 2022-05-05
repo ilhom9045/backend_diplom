@@ -19,7 +19,7 @@ class SubjectTestTypeResource extends JsonResource
         $name = TestType::findOrFail($type_id);
 
         return [
-            'id' => $this->id,
+            'id' => $this->test_type_id,
             'name' => $name->type_name,
             'text_count' => $this->testCount($this->subject_id, $type_id)
         ];

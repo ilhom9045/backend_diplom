@@ -15,6 +15,6 @@ class ComparisonTestSeeder extends Seeder
     public function run()
     {
         //
-        ComparisonTest::factory()->count(2000)->create();
+        ComparisonTest::factory()->count(100)->create();
     }
 }

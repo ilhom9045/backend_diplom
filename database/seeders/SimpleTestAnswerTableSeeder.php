@@ -15,6 +15,6 @@ class SimpleTestAnswerTableSeeder extends Seeder
     public function run()
     {
         //
-        SimpleTestAnswer::factory()->count(100)->create();
+        SimpleTestAnswer::factory()->count(500)->create();
     }
 }

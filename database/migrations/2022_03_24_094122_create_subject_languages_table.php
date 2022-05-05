@@ -18,6 +18,7 @@ class CreateSubjectLanguagesTable extends Migration
             $table->foreignId('subject_id')->constrained();
             $table->foreignId('language_id')->constrained();
             $table->timestamps();
+            $table->index(['subject_id']);
             $table->index(['language_id']);
         });
     }
