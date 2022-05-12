@@ -15,7 +15,7 @@ class CreateComparisonTestsTable extends Migration
     {
         Schema::create('comparison_tests', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('title');
             $table->foreignId('status_id')->constrained();
             $table->foreignId('subject_id')->constrained();
             $table->timestamps();

@@ -77,4 +77,9 @@ class SubjectsController extends BaseController
     {
         //
     }
+
+    function verify(Request $request)
+    {
+
+    }
 }

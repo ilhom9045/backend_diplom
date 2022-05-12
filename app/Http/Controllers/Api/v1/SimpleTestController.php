@@ -31,14 +31,7 @@ class SimpleTestController extends BaseController
      */
     public function store(Request $request)
     {
-        $answers = json_decode($request->getContent());
-        if (isset($answers)) {
-            $arr = [];
-            foreach ($answers as $answer) {
-                $arr[] = SimpleTestAnswer::all()->where("id", $answer->id)->first()->is_true == 1;
-            }
-            return $arr;
-        }
+
     }
 
     /**
@@ -80,4 +73,15 @@ class SimpleTestController extends BaseController
 
     }
 
+    function verify(Request $request)
+    {
+        $answers = json_decode($request->getContent());
+        if (isset($answers)) {
+            $arr = [];
+            foreach ($answers as $answer) {
+                $arr[] = SimpleTestAnswer::all()->where("id", $answer->id)->first()->is_true == 1;
+            }
+            return $this->setData($arr, "");
+        }
+    }
 }

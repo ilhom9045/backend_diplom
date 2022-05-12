@@ -16,7 +16,7 @@ class CreateMultipleAnswerTestAnswersTable extends Migration
         Schema::create('multiple_answer_test_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId("multiple_answer_test_id")->constrained();
-            $table->string('answer_body');
+            $table->text('answer_body');
             $table->boolean('is_true');
             $table->timestamps();
         });

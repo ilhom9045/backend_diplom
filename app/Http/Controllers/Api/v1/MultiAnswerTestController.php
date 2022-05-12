@@ -31,18 +31,7 @@ class MultiAnswerTestController extends BaseController
      */
     public function store(Request $request)
     {
-        $answers = json_decode($request->getContent());
-        if (isset($answers)) {
-            $response = [];
-            foreach ($answers as $answer) {
-                $arr = [];
-                foreach ($answer->answers as $item) {
-                    $arr[] = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first()->is_true == 1;
-                }
-                $response[] = $arr;
-            }
-            return $response;
-        }
+
     }
 
     /**
@@ -77,5 +66,21 @@ class MultiAnswerTestController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    function verify(Request $request)
+    {
+        $answers = json_decode($request->getContent());
+        if (isset($answers)) {
+            $response = [];
+            foreach ($answers as $answer) {
+                $arr = [];
+                foreach ($answer->answers as $item) {
+                    $arr[] = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first()->is_true == 1;
+                }
+                $response[] = $arr;
+            }
+            return $this->setData($response, "");
+        }
     }
 }

@@ -16,7 +16,7 @@ class CreateSimpleTestAnswersTable extends Migration
         Schema::create('simple_test_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId("simple_test_id")->constrained();
-            $table->string('answer_body');
+            $table->text('answer_body');
             $table->boolean('is_true');
             $table->timestamps();
         });

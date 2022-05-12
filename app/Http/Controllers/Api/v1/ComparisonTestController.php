@@ -7,6 +7,7 @@ use App\Models\v1\ComparisonOptionAnswer;
 use App\Models\v1\ComparisonOptionQuestion;
 use App\Models\v1\ComparisonTest;
 use App\Models\v1\MultipleAnswerTestAnswer;
+use Exception;
 use Illuminate\Http\Request;
 
 class ComparisonTestController extends BaseController
@@ -32,14 +33,7 @@ class ComparisonTestController extends BaseController
      */
     public function store(Request $request)
     {
-        $answers = json_decode($request->getContent());
-        if (isset($answers)) {
-            $response = [];
-            foreach ($answers as $answer) {
-                $response[] = ComparisonOptionAnswer::all()->where("id", $answer->a_id)->first()->is_true == 1;
-            }
-            return $response;
-        }
+        ComparisonTest::created($request->all());
     }
 
     /**
@@ -74,5 +68,24 @@ class ComparisonTestController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    function verify(Request $request)
+    {
+        $answers = json_decode($request->getContent());
+        if (isset($answers)) {
+            $response = [];
+            foreach ($answers as $answer) {
+                $arr = [];
+                foreach ($answer->answers as $item) {
+                    try {
+                        $arr[] = ComparisonOptionAnswer::all()->where("id", $item->id)->first()->is_true == 1;
+                    } catch (Exception $e) {
+                    }
+                }
+                $response[] = $arr;
+            }
+            return $this->setData($response, "");
+        }
     }
 }

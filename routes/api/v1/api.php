@@ -23,6 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('simple_test/verify', [SimpleTestController::class, 'verify']);
+Route::post('multi_answer_test/verify', [MultiAnswerTestController::class, 'verify']);
+Route::post('open_test/verify', [OpenTestController::class, 'verify']);
+Route::post('comporison_test/verify', [ComparisonTestController::class, 'verify']);
+
 Route::apiResources([
     'simple_test' => SimpleTestController::class,
     'multi_answer_test' => MultiAnswerTestController::class,

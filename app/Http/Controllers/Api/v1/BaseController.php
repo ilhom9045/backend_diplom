@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 
 abstract class BaseController extends Controller
 {
@@ -13,6 +14,8 @@ abstract class BaseController extends Controller
     const userAnswer = "user_answers";
 
     protected $arr = [];
+
+    abstract function verify(Request $request);
 
     protected $headers = [
         'max_age' => 600

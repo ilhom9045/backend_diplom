@@ -35,11 +35,11 @@ class SubjectType extends Model
         return $this->setTestCount($count);
     }
 
-    private function setTestCount($count)
+    private function setTestCount($count): array
     {
         $arr = [];
         if ($count > 0) {
-            for ($i = 10; $i <= $count; $i += 10) {
+            for ($i = 5; $i <= $count; $i += 5) {
                 $arr[] = [
                     'id' => $i,
                     'title' => $this->text . " $i"

@@ -15,7 +15,7 @@ class CreateOpenTestsTable extends Migration
     {
         Schema::create('open_tests', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('title');
             $table->foreignId('status_id')->constrained();
             $table->foreignId('subject_id')->constrained();
             $table->timestamps();
