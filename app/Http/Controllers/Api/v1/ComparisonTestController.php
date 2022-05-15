@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Requests\Api\v1\ComparisonTestControllerStore;
 use App\Http\Resources\Api\v1\ComparisonTestResource;
 use App\Models\v1\ComparisonOptionAnswer;
 use App\Models\v1\ComparisonOptionQuestion;
 use App\Models\v1\ComparisonTest;
+use App\Models\v1\MultipleAnswerTest;
 use App\Models\v1\MultipleAnswerTestAnswer;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ComparisonTestController extends BaseController
 {
@@ -31,9 +34,57 @@ class ComparisonTestController extends BaseController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ComparisonTestControllerStore $request)
     {
-        ComparisonTest::created($request->all());
+        $validateData = $request->validated();
+        Schema::disableForeignKeyConstraints();
+        ComparisonTest::query()->truncate();
+        ComparisonOptionQuestion::query()->truncate();
+        ComparisonOptionAnswer::query()->truncate();
+        Schema::enableForeignKeyConstraints();
+        $comparison_test = $validateData['comparison_test'];
+        $dataTimeNow = now();
+        $multiplyTestData = [];
+        foreach ($comparison_test as $items) {
+            $comparison_test_items = [];
+            $comparison_test_items['title'] = $items['title'];
+            $comparison_test_items['status_id'] = $items['status_id'];
+            $comparison_test_items['subject_id'] = $items['status_id'];
+            $comparison_test_items['created_at'] = $dataTimeNow;
+            $comparison_test_items['updated_at'] = $dataTimeNow;
+            $multiplyTestData[] = $comparison_test_items;
+        }
+        $insertData = ComparisonTest::query()->insert($multiplyTestData);
+
+        $comparison_test_answer = $validateData['comparison_test_answer'];
+        $comparisonTestAnswerData = [];
+        foreach ($comparison_test_answer as $answer) {
+            $comparison_test_items = [];
+            $comparison_test_items['comparison_test_id'] = $answer['comparison_test_id'];
+            $comparison_test_items['answer_body'] = $answer['answer_body'];
+            $comparison_test_items['is_true'] = $answer['is_true'];
+            $comparison_test_items['created_at'] = $dataTimeNow;
+            $comparison_test_items['updated_at'] = $dataTimeNow;
+            $comparisonTestAnswerData[] = $comparison_test_items;
+        }
+        $insertAnswerData = ComparisonOptionAnswer::query()->insert($comparisonTestAnswerData);
+        $comparison_test_query = $validateData['comparison_test_query'];
+        $comparison_test_queryData = [];
+        foreach ($comparison_test_query as $query) {
+            $comparison_test_items = [];
+            $comparison_test_items['comparison_test_id'] = $query['comparison_test_id'];
+            $comparison_test_items['question_body'] = $query['question_body'];
+            $comparison_test_items['comparison_option_answer_id'] = $query['comparison_option_answer_id'];
+            $comparison_test_items['created_at'] = $dataTimeNow;
+            $comparison_test_items['updated_at'] = $dataTimeNow;
+            $comparison_test_queryData[] = $comparison_test_items;
+        }
+        $insertQueryData = ComparisonOptionQuestion::query()->insert($comparison_test_queryData);
+        if ($insertData === true && $insertAnswerData === true && $insertQueryData === true) {
+            return $this->setData(true, "");
+        } else {
+            return $this->setErrorMessage("");
+        }
     }
 
     /**

@@ -13,7 +13,7 @@ class SimpleTestStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,8 +24,14 @@ class SimpleTestStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            'title'=>'required'
+            'simple_test' => 'present|array',
+            'simple_test.*.title' => 'required|string',
+            'simple_test.*.status_id' => 'required|integer',
+            'simple_test.*.subject_id' => 'required|integer',
+            'simple_test_answer' => 'present|array',
+            'simple_test_answer.*.simple_test_id' => 'required|integer',
+            'simple_test_answer.*.answer_body' => 'required|string',
+            'simple_test_answer.*.is_true' => 'required|integer',
         ];
     }
 }

@@ -13,7 +13,7 @@ class ComparisonTestControllerStore extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,17 @@ class ComparisonTestControllerStore extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comparison_test' => 'present|array',
+            'comparison_test.*.title' => 'required|string',
+            'comparison_test.*.status_id' => 'required|integer',
+            'comparison_test.*.subject_id' => 'required|integer',
+            'comparison_test_answer' => 'present|array',
+            'comparison_test_answer.*.comparison_test_id' => 'required|integer',
+            'comparison_test_answer.*.answer_body' => 'required|string',
+            'comparison_test_answer.*.is_true' => 'required|integer',
+            'comparison_test_query.*.comparison_test_id' => 'required|integer',
+            'comparison_test_query.*.question_body' => 'required|string',
+            'comparison_test_query.*.comparison_option_answer_id' => 'required|integer',
         ];
     }
 }

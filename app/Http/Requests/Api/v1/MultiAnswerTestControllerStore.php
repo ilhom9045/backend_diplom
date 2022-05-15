@@ -13,7 +13,7 @@ class MultiAnswerTestControllerStore extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class MultiAnswerTestControllerStore extends FormRequest
     public function rules()
     {
         return [
-            //
+            'multiply_test' => 'present|array',
+            'multiply_test.*.title' => 'required|string',
+            'multiply_test.*.status_id' => 'required|integer',
+            'multiply_test.*.subject_id' => 'required|integer',
+            'multiply_test_answer' => 'present|array',
+            'multiply_test_answer.*.multiple_answer_test_id' => 'required|integer',
+            'multiply_test_answer.*.answer_body' => 'required|string',
+            'multiply_test_answer.*.is_true' => 'required|integer',
         ];
     }
 }

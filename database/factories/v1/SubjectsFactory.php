@@ -16,7 +16,7 @@ class SubjectsFactory extends Factory
     {
         return [
             //
-            'name' => $this->faker->title,
+            'name' => $this->faker->text,
             'language_id' => Languages::all()->random(),
         ];
     }

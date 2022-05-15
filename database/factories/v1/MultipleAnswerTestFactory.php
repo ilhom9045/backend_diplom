@@ -17,7 +17,7 @@ class MultipleAnswerTestFactory extends Factory
     {
         return [
             //
-            'title' => $this->faker->title,
+            'title' => $this->faker->text,
             'status_id' => Status::all()->random(),
             'subject_id' => Subjects::all()->random(),
         ];

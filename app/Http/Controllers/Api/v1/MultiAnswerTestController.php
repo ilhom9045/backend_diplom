@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Requests\Api\v1\MultiAnswerTestControllerStore;
 use App\Http\Resources\Api\v1\MultiAnswerTestResource;
 use App\Models\v1\MultipleAnswerTest;
 use App\Models\v1\MultipleAnswerTestAnswer;
+use App\Models\v1\SimpleTest;
 use App\Models\v1\SimpleTestAnswer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class MultiAnswerTestController extends BaseController
 {
@@ -29,9 +32,44 @@ class MultiAnswerTestController extends BaseController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MultiAnswerTestControllerStore $request)
     {
+        $validateData = $request->validated();
+        Schema::disableForeignKeyConstraints();
+        MultipleAnswerTestAnswer::query()->truncate();
+        MultipleAnswerTest::query()->truncate();
+        Schema::enableForeignKeyConstraints();
+        $multiplyTestReqData = $validateData['multiply_test'];
+        $dataTimeNow = now();
+        $multiplyTestData = [];
+        foreach ($multiplyTestReqData as $items) {
+            $multiply_test_items = [];
+            $multiply_test_items['title'] = $items['title'];
+            $multiply_test_items['status_id'] = $items['status_id'];
+            $multiply_test_items['subject_id'] = $items['status_id'];
+            $multiply_test_items['created_at'] = $dataTimeNow;
+            $multiply_test_items['updated_at'] = $dataTimeNow;
+            $multiplyTestData[] = $multiply_test_items;
+        }
+        $insertData = MultipleAnswerTest::query()->insert($multiplyTestData);
 
+        $multiplyTestAnswerReqData = $validateData['multiply_test_answer'];
+        $multiplyTestAnswerData = [];
+        foreach ($multiplyTestAnswerReqData as $answer) {
+            $multiply_test_items = [];
+            $multiply_test_items['multiple_answer_test_id'] = $answer['multiple_answer_test_id'];
+            $multiply_test_items['answer_body'] = $answer['answer_body'];
+            $multiply_test_items['is_true'] = $answer['is_true'];
+            $multiply_test_items['created_at'] = $dataTimeNow;
+            $multiply_test_items['updated_at'] = $dataTimeNow;
+            $multiplyTestAnswerData[] = $multiply_test_items;
+        }
+        $insertAnswerData = MultipleAnswerTestAnswer::query()->insert($multiplyTestAnswerData);
+        if ($insertData === true && $insertAnswerData == true) {
+            return $this->setData(true, "");
+        } else {
+            return $this->setErrorMessage("");
+        }
     }
 
     /**

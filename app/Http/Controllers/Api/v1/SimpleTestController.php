@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Requests\Api\v1\SimpleTestStoreRequest;
 use App\Http\Resources\Api\v1\SimpleTestResource;
 use App\Models\v1\SimpleTest;
 use App\Models\v1\SimpleTestAnswer;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 
 class SimpleTestController extends BaseController
 {
@@ -29,9 +32,44 @@ class SimpleTestController extends BaseController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SimpleTestStoreRequest $request)
     {
+        $validateData = $request->validated();
+        Schema::disableForeignKeyConstraints();
+        SimpleTestAnswer::query()->truncate();
+        SimpleTest::query()->truncate();
+        Schema::enableForeignKeyConstraints();
+        $simpleTestReqData = $validateData['simple_test'];
+        $dataTimeNow = now();
+        $simpleTestData = [];
+        foreach ($simpleTestReqData as $items) {
+            $simple_test_items = [];
+            $simple_test_items['title'] = $items['title'];
+            $simple_test_items['status_id'] = $items['status_id'];
+            $simple_test_items['subject_id'] = $items['status_id'];
+            $simple_test_items['created_at'] = $dataTimeNow;
+            $simple_test_items['updated_at'] = $dataTimeNow;
+            $simpleTestData[] = $simple_test_items;
+        }
+        $insertData = SimpleTest::query()->insert($simpleTestData);
 
+        $simpleTestAnswerReqData = $validateData['simple_test_answer'];
+        $simpleTestAnswerData = [];
+        foreach ($simpleTestAnswerReqData as $answer) {
+            $simple_test_items = [];
+            $simple_test_items['simple_test_id'] = $answer['simple_test_id'];
+            $simple_test_items['answer_body'] = $answer['answer_body'];
+            $simple_test_items['is_true'] = $answer['is_true'];
+            $simple_test_items['created_at'] = $dataTimeNow;
+            $simple_test_items['updated_at'] = $dataTimeNow;
+            $simpleTestAnswerData[] = $simple_test_items;
+        }
+        $insertAnswerData = SimpleTestAnswer::query()->insert($simpleTestAnswerData);
+        if ($insertData === true && $insertAnswerData == true) {
+            return $this->setData(true, "");
+        } else {
+            return $this->setErrorMessage("");
+        }
     }
 
     /**
