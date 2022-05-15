@@ -8,6 +8,7 @@ use \App\Http\Controllers\Api\v1\MultiAnswerTestController;
 use \App\Http\Controllers\Api\v1\ComparisonTestController;
 use \App\Http\Controllers\Api\v1\OpenTestController;
 use \App\Http\Controllers\Api\v1\SubjectsController;
+use \App\Http\Controllers\Api\v1\UserFeedBackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::middleware([KeyIsValid::class])->group(function () {
     Route::post('multi_answer_test/verify', [MultiAnswerTestController::class, 'verify']);
     Route::post('open_test/verify', [OpenTestController::class, 'verify']);
     Route::post('comporison_test/verify', [ComparisonTestController::class, 'verify']);
+    Route::post('user_feedback', [UserFeedBackController::class, 'feedback']);
     Route::apiResources([
         'simple_test' => SimpleTestController::class,
         'multi_answer_test' => MultiAnswerTestController::class,

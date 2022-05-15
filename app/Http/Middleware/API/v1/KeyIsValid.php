@@ -17,7 +17,7 @@ class KeyIsValid
     public function handle(Request $request, Closure $next)
     {
         $API_KEY = "api_key";
-        $KEY = "sadawdawdwadawdaw";
+        $KEY = "QXBpIGtleSDRgdC10YDQstC10YDQsCA=";
         if ($request->header($API_KEY) != $KEY) {
             $arr = [];
             $arr["status"] = false;
