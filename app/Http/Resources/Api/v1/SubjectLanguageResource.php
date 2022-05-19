@@ -16,13 +16,11 @@ class SubjectLanguageResource extends JsonResource
      */
     public function toArray($request)
     {
-        $subjectId = $this->subject_id;
-        $title = (Subjects::findOrFail($subjectId))->name;
-        $subjects = SubjectType::all()->where('subject_id', '=', $subjectId);
+        $subjects = SubjectType::all()->where('subject_id', '=', $this->id);
         $category = SubjectTestTypeResource::collection($subjects);
         return [
-            'id' => $this->subject_id,
-            'title' => $title,
+            'id' => $this->id,
+            'title' => $this->name,
             'category' => $category,
         ];
     }

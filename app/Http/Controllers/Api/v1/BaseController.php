@@ -18,14 +18,14 @@ abstract class BaseController extends Controller
     abstract function verify(Request $request);
 
     protected $headers = [
-        'max_age' => 600
+        'Cache-Control' => "public, max-age=60, only-if-cached,max-stale=" . 60 * 60,
     ];
 
     protected function setErrorMessage(string $message)
     {
         $this->arr[self::status] = false;
         $this->arr[self::message] = $message;
-        return response()->json($this->arr);
+        return response($this->arr);
     }
 
     protected function setData($data, $message)

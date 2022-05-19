@@ -35,7 +35,6 @@ class DatabaseSeeder extends Seeder
             ComparisonOptionAnswerSeeder::class,
             ComparisonOptionQuestionSeeder::class,
 
-            SubjectLanguageSeeder::class,
             SubjectTypeSeeder::class,
         ]);
     }

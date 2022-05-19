@@ -23,6 +23,7 @@ class MultiAnswerTestController extends BaseController
         $subject_id = $request->get('subject_id');
         $subject_count = $request->get('test_count');
         $simple_tests = MultipleAnswerTest::all()->where('subject_id', '=', $subject_id)->random()->limit($subject_count)->get();
+        MultiAnswerTestResource::$subject_id = $subject_id;
         return $this->setData(MultiAnswerTestResource::collection($simple_tests), "");
     }
 
@@ -112,11 +113,16 @@ class MultiAnswerTestController extends BaseController
         if (isset($answers)) {
             $response = [];
             foreach ($answers as $answer) {
-                $arr = [];
                 foreach ($answer->answers as $item) {
-                    $arr[] = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first()->is_true == 1;
+                    $i = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first();
+                    $trueTestCount = MultipleAnswerTestAnswer::all()
+                        ->where('multiple_answer_test_id', $i->multiple_answer_test_id)
+                        ->where('is_true',1)->count();
+                    $a = [];
+                    $a['isTrue'] = $i->is_true == 1;
+                    $a['trueCount'] = $trueTestCount;
+                    $response[] = $a;
                 }
-                $response[] = $arr;
             }
             return $this->setData($response, "");
         }

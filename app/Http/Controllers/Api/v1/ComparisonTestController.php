@@ -7,8 +7,6 @@ use App\Http\Resources\Api\v1\ComparisonTestResource;
 use App\Models\v1\ComparisonOptionAnswer;
 use App\Models\v1\ComparisonOptionQuestion;
 use App\Models\v1\ComparisonTest;
-use App\Models\v1\MultipleAnswerTest;
-use App\Models\v1\MultipleAnswerTestAnswer;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +23,7 @@ class ComparisonTestController extends BaseController
         $subject_id = $request->get('subject_id');
         $subject_count = $request->get('test_count');
         $simple_tests = ComparisonTest::all()->where('subject_id', '=', $subject_id)->random()->limit($subject_count)->get();
+        ComparisonTestResource::$subject_id = $subject_id;
         return $this->setData(ComparisonTestResource::collection($simple_tests), "");
     }
 
@@ -127,14 +126,18 @@ class ComparisonTestController extends BaseController
         if (isset($answers)) {
             $response = [];
             foreach ($answers as $answer) {
-                $arr = [];
                 foreach ($answer->answers as $item) {
                     try {
-                        $arr[] = ComparisonOptionAnswer::all()->where("id", $item->id)->first()->is_true == 1;
+                        $a = [];
+                        $i = ComparisonOptionAnswer::all()->where("id", $item->id)->first();
+                        $trueTestCount = ComparisonOptionAnswer::all()->where('comparison_test_id', 1)
+                            ->where('is_true',1)->count();
+                        $a['isTrue'] = $i->is_true == 1;
+                        $a['trueCount'] = $trueTestCount;
+                        $response[] = $a;
                     } catch (Exception $e) {
                     }
                 }
-                $response[] = $arr;
             }
             return $this->setData($response, "");
         }
