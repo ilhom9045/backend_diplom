@@ -127,15 +127,21 @@ class ComparisonTestController extends BaseController
             $response = [];
             foreach ($answers as $answer) {
                 foreach ($answer->answers as $item) {
-                    try {
-                        $a = [];
-                        $i = ComparisonOptionAnswer::all()->where("id", $item->id)->first();
-                        $trueTestCount = ComparisonOptionAnswer::all()->where('comparison_test_id', 1)
-                            ->where('is_true',1)->count();
-                        $a['isTrue'] = $i->is_true == 1;
-                        $a['trueCount'] = $trueTestCount;
+                    if ($item->id == -1) {
+                        $a['isTrue'] = false;
+                        $a['trueCount'] = 0;
                         $response[] = $a;
-                    } catch (Exception $e) {
+                    } else {
+                        try {
+                            $a = [];
+                            $i = ComparisonOptionAnswer::all()->where("id", $item->id)->first();
+                            $trueTestCount = ComparisonOptionAnswer::all()->where('comparison_test_id', 1)
+                                ->where('is_true', 1)->count();
+                            $a['isTrue'] = $i->is_true == 1;
+                            $a['trueCount'] = $trueTestCount;
+                            $response[] = $a;
+                        } catch (Exception $e) {
+                        }
                     }
                 }
             }

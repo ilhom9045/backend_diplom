@@ -33,7 +33,9 @@ class SubjectsControllerStore extends FormRequest
             'subjects' => 'present|array',
             'subjects.*.name' => 'required|string',
             'subjects.*.language_id' => 'required|integer',
-            'subjects.*.test_types_id' => 'required|integer',
+            'subject_type' => 'present|array',
+            'subject_type.*.subject_id' => 'required|integer',
+            'subject_type.*.test_type_id' => 'required|integer'
         ];
     }
 }

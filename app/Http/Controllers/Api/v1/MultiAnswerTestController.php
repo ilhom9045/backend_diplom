@@ -114,14 +114,21 @@ class MultiAnswerTestController extends BaseController
             $response = [];
             foreach ($answers as $answer) {
                 foreach ($answer->answers as $item) {
-                    $i = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first();
-                    $trueTestCount = MultipleAnswerTestAnswer::all()
-                        ->where('multiple_answer_test_id', $i->multiple_answer_test_id)
-                        ->where('is_true',1)->count();
-                    $a = [];
-                    $a['isTrue'] = $i->is_true == 1;
-                    $a['trueCount'] = $trueTestCount;
-                    $response[] = $a;
+                    if ($item->id == -1) {
+                        $a = [];
+                        $a['isTrue'] = false;
+                        $a['trueCount'] = 0;
+                        $response[] = $a;
+                    } else {
+                        $i = MultipleAnswerTestAnswer::all()->where("id", $item->id)->first();
+                        $trueTestCount = MultipleAnswerTestAnswer::all()
+                            ->where('multiple_answer_test_id', $i->multiple_answer_test_id)
+                            ->where('is_true', 1)->count();
+                        $a = [];
+                        $a['isTrue'] = $i->is_true == 1;
+                        $a['trueCount'] = $trueTestCount;
+                        $response[] = $a;
+                    }
                 }
             }
             return $this->setData($response, "");

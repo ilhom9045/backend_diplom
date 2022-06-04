@@ -29,7 +29,6 @@ class SubjectsController extends BaseController
             $l = Languages::all()->where("language_name", $id)->first();
             $start = $request->get('start');
             $count = $request->get('count');
-//            $subjects = SubjectLanguage::where('language_id', '=', $l->id)->skip($start)->take($count)->get();
             $subjects = Subjects::where('language_id', $l->id)->offset($start * $count)->limit($count)->get();
             $subjects = SubjectLanguageResource::collection($subjects);
 
@@ -85,14 +84,7 @@ class SubjectsController extends BaseController
 
         $subjectReqData = $validateData['subjects'];
         $subjectData = [];
-        $subjectTypeData = [];
         foreach ($subjectReqData as $item) {
-            $subjectTypeItem = [];
-            $subjectTypeItem['subject_id'] = $item['id'];
-            $subjectTypeItem['test_type_id'] = $item['test_types_id'];
-            $subjectTypeItem['created_at'] = $dataTimeNow;
-            $subjectTypeItem['updated_at'] = $dataTimeNow;
-            $subjectTypeData[] = $subjectTypeItem;
             $subjectItem = [];
             $subjectItem['name'] = $item['name'];
             $subjectItem['language_id'] = $item['language_id'];
@@ -100,11 +92,22 @@ class SubjectsController extends BaseController
             $subjectItem['updated_at'] = $dataTimeNow;
             $subjectData[] = $subjectItem;
         }
-
         $insertSubjects = Subjects::query()->insert($subjectData);
+
+        $subjectTypeReqData = $validateData['subject_type'];
+        $subjectTypeData = [];
+        foreach ($subjectTypeReqData as $item) {
+            $subjectTypeItem = [];
+            $subjectTypeItem['subject_id'] = $item['subject_id'];
+            $subjectTypeItem['test_type_id'] = $item['test_type_id'];
+            $subjectTypeItem['created_at'] = $dataTimeNow;
+            $subjectTypeItem['updated_at'] = $dataTimeNow;
+            $subjectTypeData[] = $subjectTypeItem;
+        }
+
         $insertSubjectType = SubjectType::query()->insert($subjectTypeData);
 
-        if ($insertSubjects === true && $insertType == true && $insertLanguage && $insertSubjectType == true) {
+        if ($insertSubjects === true && $insertType == true && $insertLanguage == true && $insertSubjectType == true) {
             return $this->setData(true, "");
         } else {
             return $this->setErrorMessage("");

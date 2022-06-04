@@ -121,7 +121,11 @@ class SimpleTestController extends BaseController
         if (isset($answers)) {
             $arr = [];
             foreach ($answers as $answer) {
-                $arr[] = SimpleTestAnswer::all()->where("id", $answer->id)->first()->is_true == 1;
+                if ($answer->id == -1) {
+                    $arr[] = false;
+                } else {
+                    $arr[] = SimpleTestAnswer::all()->where("id", $answer->id)->first()->is_true == 1;
+                }
             }
             return $this->setData($arr, "");
         }
